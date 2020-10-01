@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
+    /**
+     * @param Role $roleModel
+     * @return JsonResponse
+     */
     public function getRoles(Role $roleModel)
     {
         $roles = $roleModel->getRoles();
@@ -20,6 +25,11 @@ class RoleController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param Role $roleModel
+     * @return JsonResponse
+     */
     public function addRole(Request $request, Role $roleModel)
     {
         $params = $request->all();
@@ -31,6 +41,12 @@ class RoleController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Role $roleModel
+     * @param $id
+     * @return JsonResponse
+     */
     public function updateRole(Request $request, Role $roleModel, $id)
     {
         $params = $request->all();
@@ -43,6 +59,11 @@ class RoleController extends Controller
         }
     }
 
+    /**
+     * @param Role $roleModel
+     * @param $id
+     * @return JsonResponse
+     */
     public function deleteRole(Role $roleModel, $id)
     {
         $role = $roleModel->deleteRole($id);

@@ -19,7 +19,7 @@ class CreateSchoolsTable extends Migration
             $table->string('address')->nullable();
             $table->date('open')->nullable();
             $table->date('close')->nullable();
-            $table->integer('number_of_students')->default(0);
+            $table->integer('number_of_students')->nullable()->default(0);
             $table->timestamps();
         });
     }

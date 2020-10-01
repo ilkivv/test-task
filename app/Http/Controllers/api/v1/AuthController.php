@@ -21,13 +21,13 @@ class AuthController extends Controller
     {
         $params = $request->all();
         $validator = Validator::make($params, [
-            'name' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
         if ($validator->fails()) return new JsonResponse($validator->errors(), 417);
 
-        $credentials = $request->only(['name', 'password']);
+        $credentials = $request->only(['email', 'password']);
 
         if (Auth::attempt($credentials, true)) {
 
@@ -54,14 +54,14 @@ class AuthController extends Controller
 
         $params = $request->all();
         $validator = Validator::make($params, [
-            'name' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
             'confirm_password' => 'required|same:password',
         ]);
 
         if ($validator->fails()) return new JsonResponse($validator->errors(), 417);
 
-        $user = $userModel->getUser($params['name']);
+        $user = $userModel->getUser($params['email']);
 
         if ($user) return new JsonResponse(["error" => "Такой пользователь уже зарегистрирован"], 417);
 
@@ -69,7 +69,7 @@ class AuthController extends Controller
 
         $user = $userModel->createUser($params);
 
-        $success['name'] = $user['name'];
+        $success['email'] = $user['email'];
         $success['token'] = $user->createToken('test-client')->accessToken;
         return new JsonResponse(['success' => $success], 200);
     }
