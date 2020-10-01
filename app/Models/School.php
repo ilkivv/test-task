@@ -10,8 +10,8 @@ class School extends Model
     use HasFactory;
 
     protected $casts = [
-        'open' => 'Y', // Change your format
-        'close' => 'Y',
+        'open' => 'datetime:Y', // Свой формат
+        'close' => 'datetime:Y',
     ];
 
     protected $guarded = [];
@@ -23,7 +23,7 @@ class School extends Model
 
     public function getSchool($id)
     {
-        return $this->where('id', $id)->firstOrFail();
+        return $this->where('id', $id)->first();
     }
 
     public function addSchool($params)
@@ -33,11 +33,23 @@ class School extends Model
 
     public function updateSchool($id, $params)
     {
-        return $this->find($id)->update($params);
+        $item = $this->find($id);
+        if (!empty($item)){
+            return $item->update($params);
+        }else{
+            return false;
+        }
+
     }
 
     public function deleteSchool($id)
     {
-        return $this->find($id)->delete();
+        $item = $this->find($id);
+        if (!empty($item)){
+            return $item->delete();
+        }else{
+            return false;
+        }
+
     }
 }

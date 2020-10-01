@@ -14,20 +14,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+
+Route::middleware(['auth:api','cors'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::namespace('api\v1')->prefix('v1')->group(function () {
+
+    Route::post('login', 'AuthController@login');
+    Route::post('register', 'AuthController@register');
+
     Route::get('schools', 'SchoolController@getSchools');
     Route::post('school', 'SchoolController@addSchool');
     Route::put('school/{id}', 'SchoolController@updateSchool');
     Route::delete('school/{id}', 'SchoolController@deleteSchool');
 
+    Route::get('roles', 'RoleController@getRoles');
+    Route::post('role', 'RoleController@addRole');
+    Route::put('role/{id}', 'RoleController@updateRole');
+    Route::delete('role/{id}', 'RoleController@deleteRole');
+
     Route::get('workers', 'UserController@getWorkers');
     Route::post('worker', 'UserController@addWorker');
     Route::put('worker/{id}', 'UserController@updateWorker');
     Route::delete('worker/{id}', 'UserController@deleteWorker');
+
+
+    Route::group(['middleware' => 'auth:api','cors'], function () {
+        Route::get('logout', 'AuthController@logout');
+        Route::get('users', 'UserController@getUsers');
+    });
+
 });
 
 

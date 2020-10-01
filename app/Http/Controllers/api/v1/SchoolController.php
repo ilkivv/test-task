@@ -13,7 +13,7 @@ class SchoolController extends Controller
     {
         $schools = $schoolModel->getSchools();
 
-        if (!$schools->isEmpty()){
+        if (!empty($schools)){
             return new JsonResponse(['schools' => $schools], 200);
         }else{
             return new JsonResponse(['error' => "Не найдено ни одной школы"], 200);
@@ -25,7 +25,7 @@ class SchoolController extends Controller
         $params = $request->all();
         $school = $schoolModel->addSchool($params);
 
-        if (!$school->isEmpty()){
+        if (!empty($school)){
             return new JsonResponse(['school' => $school], 200);
         }else{
             return new JsonResponse(['error' => "Ошибка добавления записи"], 200);
@@ -36,13 +36,12 @@ class SchoolController extends Controller
     {
         $params = $request->all();
         $school = $schoolModel->updateSchool($id, $params);
-
-        if (!$school){
+        if (!empty($school)){
 
             $school = $schoolModel->getSchool($id);
             return new JsonResponse(['school' => $school], 200);
         }else{
-            return new JsonResponse(['error' => "Ошибка обновления записи"], 200);
+            return new JsonResponse(['error' => "Ошибка обновления записи, возможно такая запись не найдена"], 200);
         }
     }
 
@@ -51,9 +50,9 @@ class SchoolController extends Controller
         $result = $schoolModel->deleteSchool($id);
 
         if ($result){
-            return new JsonResponse(['result' => $result], 200);
+            return new JsonResponse(['success' => "Запись успешно удалена"], 200);
         }else{
-            return new JsonResponse(['error' => "Ошибка удаления записи"], 200);
+            return new JsonResponse(['error' => "Ошибка удаления записи, возможно такая запись не найдена"], 200);
         }
     }
 }
