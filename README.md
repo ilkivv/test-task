@@ -24,3 +24,6 @@ https://github.com/ilkivv/test-task.git
 - наполнить бд начальными данными с помощью php artisan db:seed
 - создать персональный ключ с помощью команды php artisan passport:client --personal со значением test-task
 
+### Схема БД
+
+схема базы данных создана в <b>DbVisualizer</b>
