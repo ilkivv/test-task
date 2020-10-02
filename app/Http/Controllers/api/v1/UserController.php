@@ -43,16 +43,16 @@ class UserController extends Controller
     public function updateStudent(Request $request, User $userModel, $id)
     {
         $current_user = $userModel->getCurrentUser();
-
+        //dd($current_user->addPermissions('Access to CRUD students'));
         if ($current_user->hasPermission('Access to CRUD students')) {
 
             $params = $request->all();
 
+            $student = $userModel->updateStudent($id, $params);
 
-
-            return new JsonResponse(['students' => $students], 200);
+            //return new JsonResponse(['students' => $students], 200);
         }else{
-            return new JsonResponse(['error' => "У вас недостаточно прав для просмотра"], 200);
+            return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
         }
     }
 

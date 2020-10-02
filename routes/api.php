@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::middleware(['auth:api','cors'])->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::namespace('api\v1')->prefix('v1')->group(function () {
 
     Route::post('login', 'AuthController@login');
@@ -47,9 +42,9 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
         Route::delete('role/{id}', 'RoleController@deleteRole');
 
         Route::get('students', 'UserController@getAllStudents');
-        Route::post('students', 'UserController@addStudent');
+//        Route::post('students', 'UserController@addStudent');
         Route::put('students/{id}', 'UserController@updateStudent');
-        Route::delete('students/{id}', 'UserController@deleteStudent');
+//        Route::delete('students/{id}', 'UserController@deleteStudent');
 
     });
 

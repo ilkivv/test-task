@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Attributes;
 use App\Traits\HasRolesAndPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions, Attributes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'full_name',
+        'birthday',
+        'gender'
     ];
 
     /**
@@ -78,6 +82,32 @@ class User extends Authenticatable
     }
 
     /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     */
+    public function getUserById($id)
+    {
+        return $this->with(['roles', 'attributes_db', 'permissions'])->where('id', $id)->first();
+    }
+
+    /**
+     * @param $id
+     * @param $params
+     * @return bool
+     */
+    public function updateStudent($id, $params)
+    {
+        $user = $this->getUserById($id);
+        if ($user->hasRole('Student')){
+            $user->update($params);
+            $user->updateAttributes($params);
+            return $this->get();
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * @return array
      */
     public function getAllStudents()
@@ -85,7 +115,9 @@ class User extends Authenticatable
         $users = $this->with([
             'roles' => function ($query) {
                 $query->where('name', 'Student');
-            }]
+                },
+            'attributes_db'
+            ]
         )->get();
 
         $students = [];
@@ -104,13 +136,5 @@ class User extends Authenticatable
     public function school()
     {
         return $this->belongsTo(School::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function attributes()
-    {
-        return $this->belongsToMany(Attribute::class, 'users_attributes');
     }
 }
