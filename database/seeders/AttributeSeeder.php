@@ -16,22 +16,27 @@ class AttributeSeeder extends Seeder
     {
         $attribute1 = new Attribute();
         $attribute1->name = 'Date of employment';
+        $attribute1->slug = 'date_of_employment';
         $attribute1->save();
 
         $attribute2 = new Attribute();
         $attribute2->name = 'Date of dismissal';
+        $attribute2->slug = 'date_of_dismissal';
         $attribute2->save();
 
         $attribute3 = new Attribute();
         $attribute3->name = 'Date of receipt';
+        $attribute3->slug = 'date_of_receipt';
         $attribute3->save();
 
         $attribute4 = new Attribute();
         $attribute4->name = 'Class';
+        $attribute4->slug = 'class';
         $attribute4->save();
 
         $attribute5 = new Attribute();
         $attribute5->name = 'Parallel';
+        $attribute5->slug = 'parallel';
         $attribute5->save();
     }
 }

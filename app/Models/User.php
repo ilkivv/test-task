@@ -43,36 +43,72 @@ class User extends Authenticatable
         'birthday' => 'datetime:d-m-Y'
     ];
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     public function getUser($email)
     {
         return $this->where('email', $email)->first();
     }
 
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
     public function getCurrentUser()
     {
         return Auth::user();
     }
 
+    /**
+     * @param $params
+     * @return mixed
+     */
     public function createUser($params)
     {
         return $this->create($params);
     }
 
+    /**
+     * @return mixed
+     */
     public function getUsers()
     {
         return $this->get();
     }
 
+    /**
+     * @return array
+     */
     public function getAllStudents()
     {
-        return $this->get();
+        $users = $this->with([
+            'roles' => function ($query) {
+                $query->where('name', 'Student');
+            }]
+        )->get();
+
+        $students = [];
+
+        foreach ($users as $user) {
+            if (count($user->roles) > 0){
+                $students[] = $user;
+            }
+        }
+        return $students;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function school()
     {
         return $this->belongsTo(School::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class, 'users_attributes');

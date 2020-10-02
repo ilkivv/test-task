@@ -46,7 +46,11 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
         Route::put('role/{id}', 'RoleController@updateRole');
         Route::delete('role/{id}', 'RoleController@deleteRole');
 
-        Route::get('get-students', 'UserController@getAllStudents');
+        Route::get('students', 'UserController@getAllStudents');
+        Route::post('students', 'UserController@addStudent');
+        Route::put('students/{id}', 'UserController@updateStudent');
+        Route::delete('students/{id}', 'UserController@deleteStudent');
+
     });
 
 });
