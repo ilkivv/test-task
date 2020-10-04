@@ -22,25 +22,23 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
     Route::group(['middleware' => 'auth:api','cors'], function () {
 
         Route::get('schools', 'SchoolController@getAllSchools');
-        Route::get('school/{id}', 'SchoolController@getSchoolById');
-        Route::post('school', 'SchoolController@addSchool');
-        Route::put('school/{id}', 'SchoolController@updateSchoolById');
-        Route::delete('school/{id}', 'SchoolController@deleteSchoolById');
+        Route::get('schools/{id}', 'SchoolController@getSchoolById');
+        Route::post('schools', 'SchoolController@addSchool');
+        Route::put('schools/{id}', 'SchoolController@updateSchoolById');
+        Route::delete('schools/{id}', 'SchoolController@deleteSchoolById');
 
         Route::get('logout', 'AuthController@logout');
 
-        Route::get('users', 'UserController@getUsers');
-
         Route::get('roles', 'RoleController@getRoles');
-        Route::post('role', 'RoleController@addRole');
-        Route::put('role/{id}', 'RoleController@updateRole');
-        Route::delete('role/{id}', 'RoleController@deleteRole');
+        Route::post('roles', 'RoleController@addRole');
+        Route::put('roles/{id}', 'RoleController@updateRole');
+        Route::delete('roles/{id}', 'RoleController@deleteRole');
 
         Route::get('users/{type}', 'UserController@getAllUsers');
         Route::get('users/{type}/{school_id}', 'UserController@getAllUsersBySchoolId');
-        Route::post('users/{type}', 'UserController@addUsers');
-        Route::put('users/{type}/{id}', 'UserController@updateUsersById');
-        Route::delete('users/{type}/{id}', 'UserController@deleteUsersById');
+        Route::post('users', 'UserController@addUser');
+        Route::put('users/{id}', 'UserController@updateUserById');
+        Route::delete('users/{id}', 'UserController@deleteUserById');
 
 //        Route::get('workers', 'UserController@getAllWorkers');
 //        Route::get('workers/{school_id}', 'UserController@getAllWorkersByWorkerId');

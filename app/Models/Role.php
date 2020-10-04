@@ -19,6 +19,11 @@ class Role extends Model
         return $this->get();
     }
 
+    public function getRoleById($id)
+    {
+        return $this->find($id);
+    }
+
     /**
      * @param $params
      * @return mixed

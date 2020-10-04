@@ -83,6 +83,12 @@ trait HasRolesAndPermissions
         return $this->roles()->saveMany($roles);
     }
 
+    public function getRoleById($id)
+    {
+        $roleModel = new Role();
+        return $roleModel->getRoleById($id);
+    }
+
     /**
      * @param $permissions
      * @return mixed

@@ -107,11 +107,11 @@ class User extends Authenticatable
      * @param $params
      * @return bool
      */
-    public function updateStudentById($id, $params)
+    public function updateUserById($id, $params)
     {
         $user = $this->getUserById($id);
 
-        if (!empty($user) && $user->hasRole(self::ROLE_STUDENT)){
+        if (!empty($user)){
             $user->update($params);
             $user->updateAttributes($params);
             return $this->getUserById($id);
@@ -176,14 +176,16 @@ class User extends Authenticatable
         return false;
     }
 
-    public function addStudent($params)
+    public function addUser($params)
     {
         $user = $this->getUserByEmail($params['email']);
-        if (empty($user)){
-            $student = $this->create($params);
-            $student->addRoles(self::ROLE_STUDENT);
-            $student->updateAttributes($params);
-            return $student;
+        $role = $this->getRoleById((int) $params['role']);
+
+        if (empty($user) && !empty($role)){
+            $user = $this->create($params);
+            $user->addRoles($role['name']);
+            $user->updateAttributes($params);
+            return $user;
         }
 
         return false;

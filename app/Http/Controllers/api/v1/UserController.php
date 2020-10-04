@@ -78,9 +78,9 @@ class UserController extends Controller
         if ($current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)) {
 
             $params = $request->all();
-            $student = $userModel->updateStudentById($id, $params);
+            $user = $userModel->updateUserById($id, $params);
 
-            return new JsonResponse(['student' => $student], 200);
+            return new JsonResponse(['user' => $user], 200);
         }else{
             return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
         }
@@ -104,7 +104,7 @@ class UserController extends Controller
         return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
     }
 
-    public function addStudent(Request $request, User $userModel)
+    public function addUser(Request $request, User $userModel)
     {
         $current_user = $userModel->getCurrentUser();
 
@@ -112,10 +112,10 @@ class UserController extends Controller
 
             $params = $request->all();
             $params['password'] = bcrypt($params['password']);
-            $student = $userModel->addStudent($params);
+            $user = $userModel->addUser($params);
 
-            if ($student){
-                return new JsonResponse(['student' => $student], 200);
+            if ($user){
+                return new JsonResponse(['user' => $user], 200);
             }else{
                 return new JsonResponse(['error' => "Пользователь с такими данными уже сушествует"], 200);
             }

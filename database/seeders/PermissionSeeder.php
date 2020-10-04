@@ -16,10 +16,12 @@ class PermissionSeeder extends Seeder
     {
         $permission1 = new Permission();
         $permission1->name = 'Access to permissions';
+        $permission1->slug = 'access_to_permissions';
         $permission1->save();
 
         $permission2 = new Permission();
         $permission2->name = 'Access to CRUD students';
+        $permission2->slug = 'access_to_crud_students';
         $permission2->save();
     }
 }
