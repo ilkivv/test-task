@@ -42,6 +42,7 @@ class UserSeeder extends Seeder
         $user1->save();
         $user1->roles()->attach($admin);
         $user1->permissions()->attach($access_to_permissions);
+        $user1->permissions()->attach($acsess_to_crud_students);
 
         $user2 = new User();
         $user2->email = 'director@test.com';
@@ -53,8 +54,8 @@ class UserSeeder extends Seeder
         $user2->save();
         $user2->roles()->attach($director);
         $user2->permissions()->attach($acsess_to_crud_students);
-        $user2->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user2->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user2->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user2->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user3 = new User();
         $user3->email = 'headteacher1@test.com';
@@ -66,8 +67,8 @@ class UserSeeder extends Seeder
         $user3->save();
         $user3->roles()->attach($head_teacher);
         $user3->permissions()->attach($acsess_to_crud_students);
-        $user3->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user3->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user3->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user3->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user18 = new User();
         $user18->email = 'headteacher2@test.com';
@@ -79,8 +80,8 @@ class UserSeeder extends Seeder
         $user18->save();
         $user18->roles()->attach($head_teacher);
         $user18->permissions()->attach($acsess_to_crud_students);
-        $user18->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user18->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user18->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user18->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user4 = new User();
         $user4->email = 'teacher1@test.com';
@@ -91,8 +92,8 @@ class UserSeeder extends Seeder
         $user4->school_id = 1;
         $user4->save();
         $user4->roles()->attach($teacher);
-        $user4->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user4->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user4->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user4->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user5 = new User();
         $user5->email = 'teacher2@test.com';
@@ -103,8 +104,8 @@ class UserSeeder extends Seeder
         $user5->school_id = 1;
         $user5->save();
         $user5->roles()->attach($teacher);
-        $user5->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user5->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user5->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user5->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user6 = new User();
         $user6->email = 'teacher3@test.com';
@@ -115,8 +116,8 @@ class UserSeeder extends Seeder
         $user6->school_id = 1;
         $user6->save();
         $user6->roles()->attach($teacher);
-        $user6->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user6->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user6->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user6->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user7 = new User();
         $user7->email = 'teacher4@test.com';
@@ -127,8 +128,8 @@ class UserSeeder extends Seeder
         $user7->school_id = 1;
         $user7->save();
         $user7->roles()->attach($teacher);
-        $user7->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user7->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user7->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user7->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user8 = new User();
         $user8->email = 'teacher5@test.com';
@@ -139,8 +140,8 @@ class UserSeeder extends Seeder
         $user8->school_id = 2;
         $user8->save();
         $user8->roles()->attach($teacher);
-        $user8->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user8->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user8->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user8->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user9 = new User();
         $user9->email = 'teacher6@test.com';
@@ -151,8 +152,8 @@ class UserSeeder extends Seeder
         $user9->school_id = 2;
         $user9->save();
         $user9->roles()->attach($teacher);
-        $user9->attributes()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user9->attributes()->attach($date_of_dismissal, ['value' => null]);
+        $user9->attributes_db()->attach($date_of_employment, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user9->attributes_db()->attach($date_of_dismissal, ['value' => null]);
 
         $user10 = new User();
         $user10->email = 'student1@test.com';
@@ -163,9 +164,9 @@ class UserSeeder extends Seeder
         $user10->school_id = 1;
         $user10->save();
         $user10->roles()->attach($student);
-        $user10->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user10->attributes()->attach($class, ['value' => 1]);
-        $user10->attributes()->attach($parallel, ['value' => 'A']);
+        $user10->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user10->attributes_db()->attach($class, ['value' => 1]);
+        $user10->attributes_db()->attach($parallel, ['value' => 'A']);
 
         $user11 = new User();
         $user11->email = 'student2@test.com';
@@ -176,9 +177,9 @@ class UserSeeder extends Seeder
         $user11->school_id = 1;
         $user11->save();
         $user11->roles()->attach($student);
-        $user11->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user11->attributes()->attach($class, ['value' => 1]);
-        $user11->attributes()->attach($parallel, ['value' => 'A']);
+        $user11->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user11->attributes_db()->attach($class, ['value' => 1]);
+        $user11->attributes_db()->attach($parallel, ['value' => 'A']);
 
         $user12 = new User();
         $user12->email = 'student3@test.com';
@@ -189,9 +190,9 @@ class UserSeeder extends Seeder
         $user12->school_id = 2;
         $user12->save();
         $user12->roles()->attach($student);
-        $user12->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user12->attributes()->attach($class, ['value' => 2]);
-        $user12->attributes()->attach($parallel, ['value' => 'B']);
+        $user12->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user12->attributes_db()->attach($class, ['value' => 2]);
+        $user12->attributes_db()->attach($parallel, ['value' => 'B']);
 
         $user13 = new User();
         $user13->email = 'student4@test.com';
@@ -202,9 +203,9 @@ class UserSeeder extends Seeder
         $user13->school_id = 2;
         $user13->save();
         $user13->roles()->attach($student);
-        $user13->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user13->attributes()->attach($class, ['value' => 2]);
-        $user13->attributes()->attach($parallel, ['value' => 'B']);
+        $user13->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user13->attributes_db()->attach($class, ['value' => 2]);
+        $user13->attributes_db()->attach($parallel, ['value' => 'B']);
 
         $user14 = new User();
         $user14->email = 'student5@test.com';
@@ -215,9 +216,9 @@ class UserSeeder extends Seeder
         $user1->school_id = 1;
         $user14->save();
         $user14->roles()->attach($student);
-        $user14->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user14->attributes()->attach($class, ['value' => 1]);
-        $user14->attributes()->attach($parallel, ['value' => 'A']);
+        $user14->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user14->attributes_db()->attach($class, ['value' => 1]);
+        $user14->attributes_db()->attach($parallel, ['value' => 'A']);
 
         $user15 = new User();
         $user15->email = 'student6@test.com';
@@ -228,9 +229,9 @@ class UserSeeder extends Seeder
         $user15->school_id = 1;
         $user15->save();
         $user15->roles()->attach($student);
-        $user15->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user15->attributes()->attach($class, ['value' => 1]);
-        $user15->attributes()->attach($parallel, ['value' => 'A']);
+        $user15->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user15->attributes_db()->attach($class, ['value' => 1]);
+        $user15->attributes_db()->attach($parallel, ['value' => 'A']);
 
         $user16 = new User();
         $user16->email = 'student7@test.com';
@@ -241,9 +242,9 @@ class UserSeeder extends Seeder
         $user16->school_id = 2;
         $user16->save();
         $user16->roles()->attach($student);
-        $user16->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user16->attributes()->attach($class, ['value' => 2]);
-        $user16->attributes()->attach($parallel, ['value' => 'B']);
+        $user16->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user16->attributes_db()->attach($class, ['value' => 2]);
+        $user16->attributes_db()->attach($parallel, ['value' => 'B']);
 
         $user17 = new User();
         $user17->email = 'student8@test.com';
@@ -254,8 +255,8 @@ class UserSeeder extends Seeder
         $user17->school_id = 2;
         $user17->save();
         $user17->roles()->attach($student);
-        $user17->attributes()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
-        $user17->attributes()->attach($class, ['value' => 2]);
-        $user17->attributes()->attach($parallel, ['value' => 'B']);
+        $user17->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
+        $user17->attributes_db()->attach($class, ['value' => 2]);
+        $user17->attributes_db()->attach($parallel, ['value' => 'B']);
     }
 }

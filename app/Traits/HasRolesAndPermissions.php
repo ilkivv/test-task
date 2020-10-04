@@ -74,6 +74,15 @@ trait HasRolesAndPermissions
         return $this;
     }
 
+    public function addRoles(...$roles)
+    {
+        $roles = $this->getRoles($roles);
+        if($roles === null) {
+            return $this;
+        }
+        return $this->roles()->saveMany($roles);
+    }
+
     /**
      * @param $permissions
      * @return mixed
@@ -82,6 +91,12 @@ trait HasRolesAndPermissions
     {
         $permissionModel = new Permission();
         return $permissionModel->getAllPermissions($permissions);
+    }
+
+    protected function getRoles($roles)
+    {
+        $roleModel = new Role();
+        return $roleModel->getAllRolesByNames($roles);
     }
 
     /**

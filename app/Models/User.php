@@ -15,6 +15,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions, Attributes;
 
+
+
+    const ROLE_STUDENT = 'Student';
+    const ROLE_TEACHER = 'Teacher';
+    const ROLE_HEAD_TEACHER = 'Head teacher';
+    const ROLE_DIRECTOR = 'Director';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -90,21 +97,27 @@ class User extends Authenticatable
         return $this->with(['roles', 'attributes_db', 'permissions'])->where('id', $id)->first();
     }
 
+    public function getUserByEmail($email)
+    {
+        return $this->with(['roles', 'attributes_db', 'permissions'])->where('email', $email)->first();
+    }
+
     /**
      * @param $id
      * @param $params
      * @return bool
      */
-    public function updateStudent($id, $params)
+    public function updateStudentById($id, $params)
     {
         $user = $this->getUserById($id);
-        if ($user->hasRole('Student')){
+
+        if (!empty($user) && $user->hasRole(self::ROLE_STUDENT)){
             $user->update($params);
             $user->updateAttributes($params);
-            return $this->get();
-        }else{
-            return false;
+            return $this->getUserById($id);
         }
+
+        return false;
     }
 
     /**
@@ -112,23 +125,70 @@ class User extends Authenticatable
      */
     public function getAllStudents()
     {
-        $users = $this->with([
-            'roles' => function ($query) {
-                $query->where('name', 'Student');
-                },
-            'attributes_db'
-            ]
-        )->get();
-
-        $students = [];
-
-        foreach ($users as $user) {
-            if (count($user->roles) > 0){
-                $students[] = $user;
-            }
-        }
-        return $students;
+        return $this->with('roles')
+            ->whereHas('roles', function($query){
+                $query->where('name', self::ROLE_STUDENT);
+            })
+            ->OrderBy('id', 'ASC')->get();
     }
+
+    public function getAllWorkers()
+    {
+        return $this->with('roles')
+            ->whereHas('roles', function($query){
+                $query->where('name', self::ROLE_TEACHER)
+                        ->orWhere('name', self::ROLE_HEAD_TEACHER)
+                        ->orWhere('name', self::ROLE_DIRECTOR);
+                })
+            ->OrderBy('id', 'ASC')->get();
+    }
+
+    public function getAllStudentsBySchoolId($school_id)
+    {
+        return $students = $this->with('attributes_db')
+            ->where('school_id', $school_id)
+            ->whereHas('roles', function($query){
+                $query->where('name', self::ROLE_STUDENT);
+            })
+            ->OrderBy('id', 'ASC')->get();
+    }
+
+    public function getAllWorkersBySchoolId($school_id)
+    {
+        return $students = $this->with('attributes_db')
+            ->where('school_id', $school_id)
+            ->whereHas('roles', function($query){
+                $query->where('name', self::ROLE_TEACHER)
+                    ->orWhere('name', self::ROLE_HEAD_TEACHER)
+                    ->orWhere('name', self::ROLE_DIRECTOR);
+            })
+            ->OrderBy('id', 'ASC')->get();
+    }
+
+    public function deleteStudentById($id)
+    {
+        $user = $this->find($id);
+
+        if ($user->hasRole(self::ROLE_STUDENT)){
+            return $user->delete();
+        }
+
+        return false;
+    }
+
+    public function addStudent($params)
+    {
+        $user = $this->getUserByEmail($params['email']);
+        if (empty($user)){
+            $student = $this->create($params);
+            $student->addRoles(self::ROLE_STUDENT);
+            $student->updateAttributes($params);
+            return $student;
+        }
+
+        return false;
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

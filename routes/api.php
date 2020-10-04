@@ -19,21 +19,16 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
     Route::post('login', 'AuthController@login');
     Route::post('register', 'AuthController@register');
 
-
-    Route::get('workers', 'UserController@getWorkers');
-    Route::post('worker', 'UserController@addWorker');
-    Route::put('worker/{id}', 'UserController@updateWorker');
-    Route::delete('worker/{id}', 'UserController@deleteWorker');
-
-
     Route::group(['middleware' => 'auth:api','cors'], function () {
 
-        Route::get('schools', 'SchoolController@getSchools');
+        Route::get('schools', 'SchoolController@getAllSchools');
+        Route::get('school/{id}', 'SchoolController@getSchoolById');
         Route::post('school', 'SchoolController@addSchool');
-        Route::put('school/{id}', 'SchoolController@updateSchool');
-        Route::delete('school/{id}', 'SchoolController@deleteSchool');
+        Route::put('school/{id}', 'SchoolController@updateSchoolById');
+        Route::delete('school/{id}', 'SchoolController@deleteSchoolById');
 
         Route::get('logout', 'AuthController@logout');
+
         Route::get('users', 'UserController@getUsers');
 
         Route::get('roles', 'RoleController@getRoles');
@@ -41,10 +36,17 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
         Route::put('role/{id}', 'RoleController@updateRole');
         Route::delete('role/{id}', 'RoleController@deleteRole');
 
-        Route::get('students', 'UserController@getAllStudents');
-//        Route::post('students', 'UserController@addStudent');
-        Route::put('students/{id}', 'UserController@updateStudent');
-//        Route::delete('students/{id}', 'UserController@deleteStudent');
+        Route::get('users/{type}', 'UserController@getAllUsers');
+        Route::get('users/{type}/{school_id}', 'UserController@getAllUsersBySchoolId');
+        Route::post('users/{type}', 'UserController@addUsers');
+        Route::put('users/{type}/{id}', 'UserController@updateUsersById');
+        Route::delete('users/{type}/{id}', 'UserController@deleteUsersById');
+
+//        Route::get('workers', 'UserController@getAllWorkers');
+//        Route::get('workers/{school_id}', 'UserController@getAllWorkersByWorkerId');
+//        Route::post('worker', 'UserController@addWorker');
+//        Route::put('worker/{id}', 'UserController@updateWorkerById');
+//        Route::delete('worker/{id}', 'UserController@deleteWorkerById');
 
     });
 

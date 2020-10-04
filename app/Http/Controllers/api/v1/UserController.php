@@ -12,6 +12,12 @@ class UserController extends Controller
 {
     use HasRolesAndPermissions;
 
+    const PERMISSION_ACCESS_TO_STUDENTS = 'Access to CRUD students';
+    const ROLE_ADMINISTRATOR = 'Administrator';
+
+    const STUDENT = "student";
+    const WORKER = "worker";
+
     public function getUsers(User $userModel)
     {
         $users = $userModel->getUsers();
@@ -22,35 +28,59 @@ class UserController extends Controller
         }
     }
 
-    public function getAllStudents(User $userModel)
+    public function getAllUsers(User $userModel, $type)
     {
         $current_user = $userModel->getCurrentUser();
 
-        //dd($current_user->hasRole('Administrator'));
-        //dd($current_user->addPermissions('Access to CRUD students'));
-        //dd($current_user->deleteAllPermissions());
-        //dd($current_user->hasPermission('Access to CRUD students'));
-
-        if ($current_user->hasPermission('Access to CRUD students')){
+        if ($type === self::STUDENT && $current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)){
 
             $students = $userModel->getAllStudents();
             return new JsonResponse(['students' => $students], 200);
-        }else{
+        } else if ($type === self::WORKER){
+            $workers = $userModel->getAllWorkers();
+            return new JsonResponse(['workers' => $workers], 200);
+        } else{
             return new JsonResponse(['error' => "У вас недостаточно прав для просмотра"], 200);
         }
     }
 
-    public function updateStudent(Request $request, User $userModel, $id)
+    public function getAllUsersBySchoolId(User $userModel, $type, $school_id)
     {
         $current_user = $userModel->getCurrentUser();
-        //dd($current_user->addPermissions('Access to CRUD students'));
-        if ($current_user->hasPermission('Access to CRUD students')) {
+
+        if ($type === self::STUDENT && $current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)){
+
+            $students = $userModel->getAllStudentsBySchoolId($school_id);
+
+            if (!empty($students)){
+                return new JsonResponse(['students' => $students], 200);
+            }else{
+                return new JsonResponse(['error' => "В школе с id:" . $school_id . " нет учеников"], 200);
+            }
+
+        } else if ($type === self::WORKER){
+            $workers = $userModel->getAllWorkersBySchoolId($school_id);
+
+            if (!empty($workers)){
+                return new JsonResponse(['workers' => $workers], 200);
+            }else{
+                return new JsonResponse(['error' => "В школе с id:" . $school_id . " нет работников"], 200);
+            }
+        } else{
+            return new JsonResponse(['error' => "У вас недостаточно прав для просмотра"], 200);
+        }
+    }
+
+    public function updateUserById(Request $request, User $userModel, $id)
+    {
+        $current_user = $userModel->getCurrentUser();
+
+        if ($current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)) {
 
             $params = $request->all();
+            $student = $userModel->updateStudentById($id, $params);
 
-            $student = $userModel->updateStudent($id, $params);
-
-            //return new JsonResponse(['students' => $students], 200);
+            return new JsonResponse(['student' => $student], 200);
         }else{
             return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
         }
@@ -61,13 +91,38 @@ class UserController extends Controller
         
     }
 
-    public function deleteStudent()
+    public function deleteUserById(User $userModel, $id)
     {
+        $current_user = $userModel->getCurrentUser();
 
+        if ($current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)) {
+
+            $result = $userModel->deleteStudentById($id);
+            return new JsonResponse(['success' => $result], 200);
+        }
+
+        return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
     }
 
-    public function addStudent()
+    public function addStudent(Request $request, User $userModel)
     {
+        $current_user = $userModel->getCurrentUser();
 
+        if ($current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)) {
+
+            $params = $request->all();
+            $params['password'] = bcrypt($params['password']);
+            $student = $userModel->addStudent($params);
+
+            if ($student){
+                return new JsonResponse(['student' => $student], 200);
+            }else{
+                return new JsonResponse(['error' => "Пользователь с такими данными уже сушествует"], 200);
+            }
+
+
+        }
+
+        return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
     }
 }

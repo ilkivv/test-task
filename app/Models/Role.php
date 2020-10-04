@@ -67,6 +67,11 @@ class Role extends Model
         return $this->find($id);
     }
 
+    public function getAllRolesByNames($roles)
+    {
+        return $this->whereIn('name', $roles)->get();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

@@ -16,22 +16,27 @@ class School extends Model
 
     protected $guarded = [];
 
-    public function getSchools()
+    public function getAllSchools()
     {
-        return $this->get();
+        return $this->with('users')->get();
     }
 
-    public function getSchool($id)
+    public function getSchoolById($id)
     {
-        return $this->where('id', $id)->first();
+        return $this->find($id)->with('users')->first();
     }
+
+//    public function getSchoolByIdWithStudents($id)
+//    {
+//        return $this->find($id)->with('users')->first();
+//    }
 
     public function addSchool($params)
     {
         return $this->create($params);
     }
 
-    public function updateSchool($id, $params)
+    public function updateSchoolById($id, $params)
     {
         $item = $this->find($id);
         if (!empty($item)){
@@ -42,7 +47,7 @@ class School extends Model
 
     }
 
-    public function deleteSchool($id)
+    public function deleteSchoolById($id)
     {
         $item = $this->find($id);
         if (!empty($item)){

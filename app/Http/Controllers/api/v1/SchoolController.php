@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class SchoolController extends Controller
 {
-    public function getSchools(School $schoolModel)
+    public function getAllSchools(School $schoolModel)
     {
-        $schools = $schoolModel->getSchools();
+        $schools = $schoolModel->getAllSchools();
 
         if (!empty($schools)){
             return new JsonResponse(['schools' => $schools], 200);
@@ -19,6 +19,28 @@ class SchoolController extends Controller
             return new JsonResponse(['error' => "Не найдено ни одной школы"], 200);
         }
     }
+
+    public function getSchoolById(School $schoolModel, $id)
+    {
+        $school = $schoolModel->getSchoolById($id);
+
+        if (!empty($school)){
+            return new JsonResponse(['school' => $school], 200);
+        }else{
+            return new JsonResponse(['error' => "Школы с id" . $id . "не найдена"], 200);
+        }
+    }
+
+//    public function getSchoolByIdWithStudents(School $schoolModel, $id)
+//    {
+//        $school = $schoolModel->getSchoolByIdWithStudents($id);
+//
+//        if (!empty($school)){
+//            return new JsonResponse(['school' => $school], 200);
+//        }else{
+//            return new JsonResponse(['error' => "Школы с id" . $id . "не найдена"], 200);
+//        }
+//    }
 
     public function addSchool(Request $request, School $schoolModel)
     {
@@ -32,20 +54,20 @@ class SchoolController extends Controller
         }
     }
 
-    public function updateSchool(Request $request, School $schoolModel, $id)
+    public function updateSchoolById(Request $request, School $schoolModel, $id)
     {
         $params = $request->all();
-        $school = $schoolModel->updateSchool($id, $params);
+        $school = $schoolModel->updateSchoolById($id, $params);
         if (!empty($school)){
 
-            $school = $schoolModel->getSchool($id);
+            $school = $schoolModel->getSchoolById($id);
             return new JsonResponse(['school' => $school], 200);
         }else{
             return new JsonResponse(['error' => "Ошибка обновления записи, возможно такая запись не найдена"], 200);
         }
     }
 
-    public function deleteSchool(School $schoolModel, $id)
+    public function deleteSchoolById(School $schoolModel, $id)
     {
         $result = $schoolModel->deleteSchool($id);
 
