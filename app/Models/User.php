@@ -97,6 +97,10 @@ class User extends Authenticatable
         return $this->with(['roles', 'attributes_db', 'permissions'])->where('id', $id)->first();
     }
 
+    /**
+     * @param $email
+     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     */
     public function getUserByEmail($email)
     {
         return $this->with(['roles', 'attributes_db', 'permissions'])->where('email', $email)->first();
@@ -132,6 +136,9 @@ class User extends Authenticatable
             ->OrderBy('id', 'ASC')->get();
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAllWorkers()
     {
         return $this->with('roles')
@@ -143,6 +150,10 @@ class User extends Authenticatable
             ->OrderBy('id', 'ASC')->get();
     }
 
+    /**
+     * @param $school_id
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAllStudentsBySchoolId($school_id)
     {
         return $students = $this->with('attributes_db')
@@ -153,6 +164,10 @@ class User extends Authenticatable
             ->OrderBy('id', 'ASC')->get();
     }
 
+    /**
+     * @param $school_id
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAllWorkersBySchoolId($school_id)
     {
         return $students = $this->with('attributes_db')
@@ -165,17 +180,36 @@ class User extends Authenticatable
             ->OrderBy('id', 'ASC')->get();
     }
 
-    public function deleteStudentById($id)
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deleteUserById($id)
     {
         $user = $this->find($id);
 
-        if ($user->hasRole(self::ROLE_STUDENT)){
+        if ($user){
             return $user->delete();
         }
 
         return false;
     }
 
+    public function exceptionOrDismissalUserById($params, $id)
+    {
+        $user = $this->find($id);
+
+        if (!empty($user)){
+            return $user->updateAttribute($params);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $params
+     * @return bool|\Illuminate\Database\Eloquent\Model|null|object|static
+     */
     public function addUser($params)
     {
         $user = $this->getUserByEmail($params['email']);
@@ -184,7 +218,7 @@ class User extends Authenticatable
         if (empty($user) && !empty($role)){
             $user = $this->create($params);
             $user->addRoles($role['name']);
-            $user->updateAttributes($params);
+            $user->addAttributes($params);
             return $user;
         }
 

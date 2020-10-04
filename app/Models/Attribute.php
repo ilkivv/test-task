@@ -9,6 +9,11 @@ class Attribute extends Model
 {
     use HasFactory;
 
+    public function getAttributesBySlug($params)
+    {
+        return $this->whereIn('slug', $params)->get();
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'users_attributes');

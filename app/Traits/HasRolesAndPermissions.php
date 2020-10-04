@@ -77,9 +77,9 @@ trait HasRolesAndPermissions
     public function addRoles(...$roles)
     {
         $roles = $this->getRoles($roles);
-        if($roles === null) {
-            return $this;
-        }
+
+        if(empty($roles)) return $this;
+
         return $this->roles()->saveMany($roles);
     }
 

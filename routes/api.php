@@ -34,18 +34,15 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
         Route::put('roles/{id}', 'RoleController@updateRole');
         Route::delete('roles/{id}', 'RoleController@deleteRole');
 
+        Route::get('user/{id}', 'UserController@getUserById');
+
         Route::get('users/{type}', 'UserController@getAllUsers');
         Route::get('users/{type}/{school_id}', 'UserController@getAllUsersBySchoolId');
         Route::post('users', 'UserController@addUser');
         Route::put('users/{id}', 'UserController@updateUserById');
         Route::delete('users/{id}', 'UserController@deleteUserById');
 
-//        Route::get('workers', 'UserController@getAllWorkers');
-//        Route::get('workers/{school_id}', 'UserController@getAllWorkersByWorkerId');
-//        Route::post('worker', 'UserController@addWorker');
-//        Route::put('worker/{id}', 'UserController@updateWorkerById');
-//        Route::delete('worker/{id}', 'UserController@deleteWorkerById');
-
+        Route::put('users/exception-dismissal/{id}', 'UserController@exceptionOrDismissalUserById');
     });
 
 });

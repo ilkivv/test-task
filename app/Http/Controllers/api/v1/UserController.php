@@ -18,6 +18,10 @@ class UserController extends Controller
     const STUDENT = "student";
     const WORKER = "worker";
 
+    /**
+     * @param User $userModel
+     * @return JsonResponse
+     */
     public function getUsers(User $userModel)
     {
         $users = $userModel->getUsers();
@@ -28,6 +32,22 @@ class UserController extends Controller
         }
     }
 
+    public function getUserById(User $userModel, $id)
+    {
+        $user = $userModel->getUserById($id);
+
+        if (!empty($user)){
+            return new JsonResponse(['user' => $user], 200);
+        }else{
+            return new JsonResponse(['error' => "Пользователя с id:" . $id . " не найдено."], 200);
+        }
+    }
+
+    /**
+     * @param User $userModel
+     * @param $type
+     * @return JsonResponse
+     */
     public function getAllUsers(User $userModel, $type)
     {
         $current_user = $userModel->getCurrentUser();
@@ -44,6 +64,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @param User $userModel
+     * @param $type
+     * @param $school_id
+     * @return JsonResponse
+     */
     public function getAllUsersBySchoolId(User $userModel, $type, $school_id)
     {
         $current_user = $userModel->getCurrentUser();
@@ -71,6 +97,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @param User $userModel
+     * @param $id
+     * @return JsonResponse
+     */
     public function updateUserById(Request $request, User $userModel, $id)
     {
         $current_user = $userModel->getCurrentUser();
@@ -86,24 +118,42 @@ class UserController extends Controller
         }
     }
 
-    public function exceptionStudent()
+    public function exceptionOrDismissalUserById(Request $request, User $userModel, $id)
     {
-        
+        $current_user = $userModel->getCurrentUser();
+
+        if ($current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)) {
+            $params = $request->all();
+            $user = $userModel->exceptionOrDismissalUserById($params, $id);
+            return new JsonResponse(['user' => $user], 200);
+        }
+
+        return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
     }
 
+    /**
+     * @param User $userModel
+     * @param $id
+     * @return JsonResponse
+     */
     public function deleteUserById(User $userModel, $id)
     {
         $current_user = $userModel->getCurrentUser();
 
         if ($current_user->hasPermission(self::PERMISSION_ACCESS_TO_STUDENTS)) {
 
-            $result = $userModel->deleteStudentById($id);
+            $result = $userModel->deleteUserById($id);
             return new JsonResponse(['success' => $result], 200);
         }
 
         return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
     }
 
+    /**
+     * @param Request $request
+     * @param User $userModel
+     * @return JsonResponse
+     */
     public function addUser(Request $request, User $userModel)
     {
         $current_user = $userModel->getCurrentUser();
@@ -119,8 +169,6 @@ class UserController extends Controller
             }else{
                 return new JsonResponse(['error' => "Пользователь с такими данными уже сушествует"], 200);
             }
-
-
         }
 
         return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);

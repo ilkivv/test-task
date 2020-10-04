@@ -34,6 +34,32 @@ trait Attributes
         return $this;
     }
 
+    public function addAttributes(array $params)
+    {
+        $attributes = $this->getAttributes($params);
+        dd($attributes);
+        $this->attributes_db()->saveMany($attributes);
+        $this->updateAttributes($params);
+        return $this;
+    }
+
+    public function updateAttribute($attributes)
+    {
+        foreach ($attributes as $attribute => $value) {
+            if ($this->hasAttribute($attribute)){
+                $this->attributes_db()->updateExistingPivot($this->getTheAttributeId($attribute), ['value' => $value]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getAttributes(array $params)
+    {
+        $attributeModel = new Attribute();
+        return $attributeModel->getAttributesBySlug($params);
+    }
+
     /**
      * @param $search
      * @return bool
