@@ -17,7 +17,7 @@ trait Attributes
      */
     public function attributes_db() // перебил атрибуты коллекции, поэтому db
     {
-        return $this->belongsToMany(Attribute::class, 'users_attributes');
+        return $this->belongsToMany(Attribute::class, 'users_attributes')->withPivot('value');
     }
 
     /**
@@ -36,10 +36,10 @@ trait Attributes
 
     public function addAttributes(array $params)
     {
-        $attributes = $this->getAttributes($params);
-        dd($attributes);
-        $this->attributes_db()->saveMany($attributes);
-        $this->updateAttributes($params);
+//        $attributes = $this->getAttributes($params);
+//        dd($attributes);
+//        $this->attributes_db()->saveMany($attributes);
+//        $this->updateAttributes($params);
         return $this;
     }
 
@@ -54,11 +54,20 @@ trait Attributes
         return false;
     }
 
-    public function getAttributes(array $params)
+    public function updateAttributeValue($slug, $value)
     {
-        $attributeModel = new Attribute();
-        return $attributeModel->getAttributesBySlug($params);
+        if ($this->hasAttribute($slug)){
+            $this->attributes_db()->updateExistingPivot($this->getTheAttributeId($slug), ['value' => $value]);
+            return true;
+        }
+        return false;
     }
+
+//    public function getAttributes(array $params)
+//    {
+//        $attributeModel = new Attribute();
+//        return $attributeModel->getAttributesBySlug($params);
+//    }
 
     /**
      * @param $search

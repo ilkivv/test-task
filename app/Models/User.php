@@ -225,6 +225,24 @@ class User extends Authenticatable
         return false;
     }
 
+    public function activateTransferStudents()
+    {
+        $parametr = 'class';
+
+        $students = $this->with('attributes_db')->whereHas('roles', function($query){
+                $query->where('name', self::ROLE_STUDENT);
+            })
+            ->get();
+        foreach ($students as $student) {
+            foreach ($student->attributes_db as $attribute) {
+                if ($attribute->slug === $parametr && (int) $attribute->pivot->value < 11){
+                    $student->updateAttributeValue($parametr, $attribute->pivot->value + 1);
+                }
+            }
+        }
+        return $this;
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

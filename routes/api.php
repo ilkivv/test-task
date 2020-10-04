@@ -43,6 +43,7 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
         Route::delete('users/{id}', 'UserController@deleteUserById');
 
         Route::put('users/exception-dismissal/{id}', 'UserController@exceptionOrDismissalUserById');
+        Route::get('test', 'UserController@activateTransferStudents');
     });
 
 });

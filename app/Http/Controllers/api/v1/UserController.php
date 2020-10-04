@@ -149,6 +149,12 @@ class UserController extends Controller
         return new JsonResponse(['error' => "У вас недостаточно прав для изменения"], 200);
     }
 
+    public function activateTransferStudents(User $userModel)
+    {
+        $current_user = $userModel->activateTransferStudents();
+        return new JsonResponse(['success' => $current_user], 200);
+    }
+
     /**
      * @param Request $request
      * @param User $userModel
