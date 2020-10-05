@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Attribute;
+use App\Models\Lesson;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -32,6 +33,15 @@ class UserSeeder extends Seeder
         $date_of_receipt = Attribute::where('name','Date of receipt')->first();
         $class = Attribute::where('name','Class')->first();
         $parallel = Attribute::where('name','Parallel')->first();
+
+        $mathematics = Lesson::where('slug','mathematics')->first();
+        $russian_language = Lesson::where('slug','russian_language')->first();
+        $literature = Lesson::where('slug','literature')->first();
+        $physical_culture = Lesson::where('slug','physical_culture')->first();
+        $history = Lesson::where('slug','history')->first();
+        $geography = Lesson::where('slug','geography')->first();
+        $life_safety = Lesson::where('slug','life_safety')->first();
+        $labour = Lesson::where('slug','labour')->first();
 
         $user1 = new User();
         $user1->email = 'admin@admin.com';
@@ -167,6 +177,14 @@ class UserSeeder extends Seeder
         $user10->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user10->attributes_db()->attach($class, ['value' => 1]);
         $user10->attributes_db()->attach($parallel, ['value' => 'A']);
+        $user10->lessons()->attach($mathematics);
+        $user10->lessons()->attach($russian_language);
+        $user10->lessons()->attach($literature);
+        $user10->lessons()->attach($physical_culture);
+        $user10->lessons()->attach($history);
+        $user10->lessons()->attach($geography);
+        $user10->lessons()->attach($life_safety);
+        $user10->lessons()->attach($labour);
 
         $user11 = new User();
         $user11->email = 'student2@test.com';
@@ -180,6 +198,14 @@ class UserSeeder extends Seeder
         $user11->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user11->attributes_db()->attach($class, ['value' => 1]);
         $user11->attributes_db()->attach($parallel, ['value' => 'A']);
+        $user11->lessons()->attach($mathematics);
+        $user11->lessons()->attach($russian_language);
+        $user11->lessons()->attach($literature);
+        $user11->lessons()->attach($physical_culture);
+        $user11->lessons()->attach($history);
+        $user11->lessons()->attach($geography);
+        $user11->lessons()->attach($life_safety);
+        $user11->lessons()->attach($labour);
 
         $user12 = new User();
         $user12->email = 'student3@test.com';
@@ -193,6 +219,14 @@ class UserSeeder extends Seeder
         $user12->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user12->attributes_db()->attach($class, ['value' => 2]);
         $user12->attributes_db()->attach($parallel, ['value' => 'B']);
+        $user12->lessons()->attach($mathematics);
+        $user12->lessons()->attach($russian_language);
+        $user12->lessons()->attach($literature);
+        $user12->lessons()->attach($physical_culture);
+        $user12->lessons()->attach($history);
+        $user12->lessons()->attach($geography);
+        $user12->lessons()->attach($life_safety);
+        $user12->lessons()->attach($labour);
 
         $user13 = new User();
         $user13->email = 'student4@test.com';
@@ -206,6 +240,14 @@ class UserSeeder extends Seeder
         $user13->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user13->attributes_db()->attach($class, ['value' => 2]);
         $user13->attributes_db()->attach($parallel, ['value' => 'B']);
+        $user13->lessons()->attach($mathematics);
+        $user13->lessons()->attach($russian_language);
+        $user13->lessons()->attach($literature);
+        $user13->lessons()->attach($physical_culture);
+        $user13->lessons()->attach($history);
+        $user13->lessons()->attach($geography);
+        $user13->lessons()->attach($life_safety);
+        $user13->lessons()->attach($labour);
 
         $user14 = new User();
         $user14->email = 'student5@test.com';
@@ -219,6 +261,14 @@ class UserSeeder extends Seeder
         $user14->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user14->attributes_db()->attach($class, ['value' => 1]);
         $user14->attributes_db()->attach($parallel, ['value' => 'A']);
+        $user14->lessons()->attach($mathematics);
+        $user14->lessons()->attach($russian_language);
+        $user14->lessons()->attach($literature);
+        $user14->lessons()->attach($physical_culture);
+        $user14->lessons()->attach($history);
+        $user14->lessons()->attach($geography);
+        $user14->lessons()->attach($life_safety);
+        $user14->lessons()->attach($labour);
 
         $user15 = new User();
         $user15->email = 'student6@test.com';
@@ -232,6 +282,14 @@ class UserSeeder extends Seeder
         $user15->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user15->attributes_db()->attach($class, ['value' => 1]);
         $user15->attributes_db()->attach($parallel, ['value' => 'A']);
+        $user15->lessons()->attach($mathematics);
+        $user15->lessons()->attach($russian_language);
+        $user15->lessons()->attach($literature);
+        $user15->lessons()->attach($physical_culture);
+        $user15->lessons()->attach($history);
+        $user15->lessons()->attach($geography);
+        $user15->lessons()->attach($life_safety);
+        $user15->lessons()->attach($labour);
 
         $user16 = new User();
         $user16->email = 'student7@test.com';
@@ -245,6 +303,14 @@ class UserSeeder extends Seeder
         $user16->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user16->attributes_db()->attach($class, ['value' => 2]);
         $user16->attributes_db()->attach($parallel, ['value' => 'B']);
+        $user16->lessons()->attach($mathematics);
+        $user16->lessons()->attach($russian_language);
+        $user16->lessons()->attach($literature);
+        $user16->lessons()->attach($physical_culture);
+        $user16->lessons()->attach($history);
+        $user16->lessons()->attach($geography);
+        $user16->lessons()->attach($life_safety);
+        $user16->lessons()->attach($labour);
 
         $user17 = new User();
         $user17->email = 'student8@test.com';
@@ -258,5 +324,13 @@ class UserSeeder extends Seeder
         $user17->attributes_db()->attach($date_of_receipt, ['value' => date('d-m-Y', strtotime('01-10-2015'))]);
         $user17->attributes_db()->attach($class, ['value' => 2]);
         $user17->attributes_db()->attach($parallel, ['value' => 'B']);
+        $user17->lessons()->attach($mathematics);
+        $user17->lessons()->attach($russian_language);
+        $user17->lessons()->attach($literature);
+        $user17->lessons()->attach($physical_culture);
+        $user17->lessons()->attach($history);
+        $user17->lessons()->attach($geography);
+        $user17->lessons()->attach($life_safety);
+        $user17->lessons()->attach($labour);
     }
 }

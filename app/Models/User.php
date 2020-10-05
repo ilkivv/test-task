@@ -94,7 +94,7 @@ class User extends Authenticatable
      */
     public function getUserById($id)
     {
-        return $this->with(['roles', 'attributes_db', 'permissions'])->where('id', $id)->first();
+        return $this->with(['roles', 'attributes_db', 'permissions', 'lessons'])->where('id', $id)->first();
     }
 
     /**
@@ -195,6 +195,11 @@ class User extends Authenticatable
         return false;
     }
 
+    /**
+     * @param $params
+     * @param $id
+     * @return bool
+     */
     public function exceptionOrDismissalUserById($params, $id)
     {
         $user = $this->find($id);
@@ -225,6 +230,9 @@ class User extends Authenticatable
         return false;
     }
 
+    /**
+     * @return $this
+     */
     public function activateTransferStudents()
     {
         $parametr = 'class';
@@ -243,6 +251,10 @@ class User extends Authenticatable
         return $this;
     }
 
+    public function addOrUpdateRatingByUser($lesson_id, $rating)
+    {
+        return $this->lessons()->updateExistingPivot($lesson_id, ['rating' => $rating]);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -250,5 +262,10 @@ class User extends Authenticatable
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function lessons()
+    {
+        return $this->belongsToMany(Lesson::class, 'users_lessons')->withPivot('rating');
     }
 }
