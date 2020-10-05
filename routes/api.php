@@ -45,7 +45,7 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
         Route::put('users/exception-dismissal/{id}', 'UserController@exceptionOrDismissalUserById');
         Route::get('test', 'UserController@activateTransferStudents');
 
-        Route::get('rating', 'RatingController@getStatistics');
+        Route::get('rating/{class}', 'RatingController@getStatistics');
         Route::post('rating', 'RatingController@addRating');
         Route::put('rating', 'RatingController@updateRating');
         Route::delete('rating', 'RatingController@deleteRating');

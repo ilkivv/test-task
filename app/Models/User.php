@@ -129,7 +129,7 @@ class User extends Authenticatable
      */
     public function getAllStudents()
     {
-        return $this->with('roles')
+        return $this->with(['roles', 'lessons', 'attributes_db'])
             ->whereHas('roles', function($query){
                 $query->where('name', self::ROLE_STUDENT);
             })

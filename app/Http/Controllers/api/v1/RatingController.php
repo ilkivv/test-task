@@ -13,9 +13,34 @@ class RatingController extends Controller
 {
     use ArrayJson;
 
-    public function getStatistics()
+    public function getStatistics(User $userModel, Lesson $lessonModel, $class)
     {
-        
+        $students = $userModel->getAllStudents();
+
+        $students_by_class = [];
+        $average = 0;
+        $count_students = 0;
+        foreach ($students as $student) {
+            foreach ($student->attributes_db as $attribute) {
+                if ($attribute->slug === 'class' && $attribute->pivot->value == $class){
+                    $students_by_class[] = $student;
+                }
+            }
+        }
+
+        foreach ($students_by_class as $student) {
+            foreach ($student->lessons as $lesson) {
+                if ($lesson->pivot->rating !== null){
+                    $rating = $this->getArrayFromJson($lesson->pivot->rating);
+                    $average += array_sum($rating) / count($rating);
+                    $count_students++;
+                }
+            }
+        }
+        if ($count_students < 1) return new JsonResponse(['error' => 'Не найдено ни одного ученика  с оценками в ' . $class . '-ом классе'], 200);
+        $average = round($average / $count_students, 1);
+
+        return new JsonResponse(['result' => 'В ' . $class . '-ом классе средний балл - ' . $average], 200);
     }
     
     public function addRating(Request $request, User $userModel, Lesson $lessonModel)
