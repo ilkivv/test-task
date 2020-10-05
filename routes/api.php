@@ -47,8 +47,8 @@ Route::namespace('api\v1')->prefix('v1')->group(function () {
 
         Route::get('rating', 'RatingController@getStatistics');
         Route::post('rating', 'RatingController@addRating');
-        Route::put('rating/{id}', 'RatingController@updateRating');
-        Route::delete('rating/{id}', 'RatingController@deleteRating');
+        Route::put('rating', 'RatingController@updateRating');
+        Route::delete('rating', 'RatingController@deleteRating');
     });
 
 });

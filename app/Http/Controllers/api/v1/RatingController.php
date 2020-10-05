@@ -13,6 +13,11 @@ class RatingController extends Controller
 {
     use ArrayJson;
 
+    public function getStatistics()
+    {
+        
+    }
+    
     public function addRating(Request $request, User $userModel, Lesson $lessonModel)
     {
         $params = $request->all();
@@ -42,7 +47,32 @@ class RatingController extends Controller
         $user = $userModel->getUserById($user_id);
         $rating = $lessonModel->getLessonByIdFromCollection($user->lessons, $lesson_id);
         $rating = $this->getArrayFromJson($rating);
-        $rating[] = $rating_value;
+
+        if (!isset($rating[$rating_key])) return new JsonResponse(['error' => "Оценки с таким ключом не существует"], 200);
+
+        $rating[$rating_key - 1] = $rating_value;
+        $rating = $this->getJsonFromArray($rating);
+
+        $response = $user->addOrUpdateRatingByUser($lesson_id, $rating);
+
+        return new JsonResponse(['success' => $response], 200);
+    }
+
+    public function deleteRating(Request $request, User $userModel, Lesson $lessonModel)
+    {
+        $params = $request->all();
+        $user_id = (int) $params['user_id'];
+        $lesson_id = (int) $params['lesson_id'];
+        $rating_key = (int) $params['rating_key'];
+
+        $user = $userModel->getUserById($user_id);
+        $rating = $lessonModel->getLessonByIdFromCollection($user->lessons, $lesson_id);
+        $rating = $this->getArrayFromJson($rating);
+
+        if (!isset($rating[$rating_key])) return new JsonResponse(['error' => "Оценки с таким ключом не существует"], 200);
+
+        unset($rating[$rating_key]);
+
         $rating = $this->getJsonFromArray($rating);
 
         $response = $user->addOrUpdateRatingByUser($lesson_id, $rating);
